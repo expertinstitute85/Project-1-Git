@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Subhan VIP Portfolio</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.7.2/dist/vanilla-tilt.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+<script src="script.js" defer></script>
+<style>
+    /* Reset & Global */
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Arial',sans-serif; scroll-behavior:smooth; transition:0.4s; }
+body { background:#f3e8ff; color:#2e2e2e; overflow-x:hidden; }
+a { text-decoration:none; }
+
+/* Header & Logo */
+header { position:fixed; top:0; left:0; width:100%; display:flex; justify-content:space-between; align-items:center; padding:10px 20px; z-index:1000; background:rgba(255,255,255,0.9); backdrop-filter: blur(5px);}
+header .logo { display:flex; align-items:center; gap:10px; font-weight:bold; font-size:1.5rem; color:#2e2e2e; }
+header .logo-circle { width:50px; height:50px; background:linear-gradient(135deg,#6a0dad,#00d4ff); border-radius:50%; display:flex; align-items:center; justify-content:center; color:white; font-weight:bold; font-size:1.5rem; box-shadow:0 4px 15px rgba(0,0,0,0.2); }
+
+/* Dark Mode */
+body.dark { background:#1e1b2e; color:#f0f0f0; }
+body.dark header { background:rgba(30,30,30,0.9); }
+body.dark .btn { background:#ff3cac; color:#fff; }
+body.dark .skill { background:#ff3cac; color:#1e1b2e; }
+body.dark .project-card { background:#2e2b40; box-shadow:0 8px 20px rgba(255,255,255,0.1); }
+body.dark footer { background:#222; color:#fff; }
+body.dark .social-icons a { color:#ff3cac; }
+
+/* Mode toggle */
+.mode-toggle { cursor:pointer; font-size:1.5rem; color:#2e2e2e; }
+body.dark .mode-toggle { color:#ff3cac; }
+
+/* Particle Background */
+#particles-js { position:fixed; top:0; left:0; width:100%; height:100%; z-index:-1; }
+
+/* Hero Section */
+#hero { height:100vh; display:flex; align-items:center; justify-content:center; text-align:center; color:white; background: linear-gradient(135deg,#6a0dad,#00d4ff); }
+.hero-content h1 { font-size:3rem; margin-bottom:10px; }
+.hero-content h1 span { color:#ff3cac; }
+.hero-content p { font-size:1.2rem; margin-bottom:20px; }
+.hero-content .btn { padding:12px 25px; background:#ff3cac; color:white; font-weight:bold; border-radius:50px; }
+.hero-content .btn:hover { background:#fff; color:#000; }
+
+/* Sections */
+section { padding:100px 20px; text-align:center; }
+#about { background:#fff; }
+body.dark #about { background:#1e1b2e; }
+#projects { background:#fce8ff; }
+body.dark #projects { background:#2e2b40; }
+#contact { background:#fff; }
+body.dark #contact { background:#1e1b2e; }
+
+/* Skills */
+.skills { display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin-top:20px; }
+.skill { background:#6a0dad; color:white; padding:10px 20px; border-radius:30px; font-weight:bold; position:relative; overflow:hidden; margin-bottom:10px; }
+.skill-bar { position:absolute; left:0; bottom:0; height:5px; width:0; background:#ff3cac; transition:1s; }
+
+/* Projects Grid */
+.projects-grid { display:flex; flex-wrap:wrap; gap:20px; justify-content:center; margin-top:40px; }
+.project-card { background:white; padding:20px; border-radius:15px; width:250px; box-shadow:0 8px 20px rgba(0,0,0,0.1); transition:0.5s; cursor:pointer; position:relative; }
+body.dark .project-card { background:#2e2b40; }
+.project-card:hover { transform:translateY(-10px) scale(1.05); box-shadow:0 15px 25px rgba(0,0,0,0.2); }
+.project-card button { margin-top:10px; padding:8px 15px; border:none; border-radius:50px; background:#6a0dad; color:white; cursor:pointer; font-weight:bold; }
+.project-card button:hover { background:#00d4ff; color:#fff; }
+
+/* Contact Form */
+#contactForm { max-width:500px; margin:0 auto; display:flex; flex-direction:column; gap:15px; }
+#contactForm input, #contactForm textarea { padding:12px; border-radius:10px; border:1px solid #ccc; font-size:1rem; resize:none; }
+#contactForm button { padding:12px; border:none; border-radius:50px; background:#ff3cac; color:white; font-weight:bold; cursor:pointer; }
+#contactForm button:hover { background:#00d4ff; color:white; }
+
+/* Social Icons */
+.social-icons { margin-top:20px; display:flex; justify-content:center; gap:20px; }
+.social-icons a { color:#2e2e2e; font-size:1.5rem; transition:0.3s; }
+.social-icons a:hover { color:#6a0dad; }
+
+/* Footer */
+footer { text-align:center; padding:20px; background:#2e2e2e; color:white; }
+body.dark footer { background:#222; }
+
+/* Fade-up animation */
+.fade-up { opacity:0; transform:translateY(50px); transition:1s; }
+.fade-up.show { opacity:1; transform:translateY(0); }
+
+/* Modal Popup */
+.modal { display:none; position:fixed; z-index:2000; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.7); justify-content:center; align-items:center; }
+.modal-content { background:#fff; padding:20px; border-radius:15px; width:90%; max-width:500px; text-align:center; position:relative; }
+.modal-content h3 { margin-bottom:10px; }
+.modal-content p { margin-bottom:20px; }
+.modal-content .close { position:absolute; top:10px; right:15px; font-size:1.5rem; cursor:pointer; }
+body.dark .modal-content { background:#2e2b40; color:#f0f0f0; }
+
+/* Responsive */
+@media(max-width:768px){ 
+  .projects-grid { flex-direction:column; align-items:center; }
+  header { flex-direction:column; gap:10px; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header>
+  <div class="logo">
+    <div class="logo-circle">S</div>
+    <span>Subhan</span>
+  </div>
+  <div class="mode-toggle"><i id="modeIcon" class="fa-solid fa-moon"></i></div>
+</header>
+
+<!-- Particle Background -->
+<div id="particles-js"></div>
+
+<!-- Hero Section -->
+<section id="hero">
+  <div class="hero-content">
+    <h1>Hi, I'm <span id="typed"></span></h1>
+    <p>Creative Developer & Designer | Making Ideas Come Alive</p>
+    <a href="#contact" class="btn"><i class="fa-solid fa-paper-plane"></i> Get In Touch</a>
+  </div>
+</section>
+
+<!-- About Section -->
+<section id="about" class="fade-up">
+  <h2>About Me</h2>
+  <p>I'm Subhan, passionate web developer & designer creating modern, interactive, visually stunning websites.</p>
+  <div class="skills">
+    <div class="skill">HTML <span class="skill-bar" data-percent="90"></span></div>
+    <div class="skill">CSS <span class="skill-bar" data-percent="85"></span></div>
+    <div class="skill">JavaScript <span class="skill-bar" data-percent="80"></span></div>
+    <div class="skill">React <span class="skill-bar" data-percent="70"></span></div>
+  </div>
+</section>
+
+<!-- Projects Section -->
+<section id="projects" class="fade-up">
+  <h2>My Projects</h2>
+  <div class="projects-grid">
+    <div class="project-card tilt" data-tilt data-tilt-max="15" data-title="Project 1" data-desc="Modern responsive website.">
+      <h3>Project 1</h3>
+      <p>Modern responsive website.</p>
+      <button class="btn view-project"><i class="fa-solid fa-arrow-up-right-from-square"></i> View</button>
+    </div>
+    <div class="project-card tilt" data-tilt data-tilt-max="15" data-title="Project 2" data-desc="Interactive web app with animations.">
+      <h3>Project 2</h3>
+      <p>Interactive web app with animations.</p>
+      <button class="btn view-project"><i class="fa-solid fa-arrow-up-right-from-square"></i> View</button>
+    </div>
+    <div class="project-card tilt" data-tilt data-tilt-max="15" data-title="Project 3" data-desc="Portfolio website with creative UI/UX.">
+      <h3>Project 3</h3>
+      <p>Portfolio website with creative UI/UX.</p>
+      <button class="btn view-project"><i class="fa-solid fa-arrow-up-right-from-square"></i> View</button>
+    </div>
+  </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="fade-up">
+  <h2>Contact Me</h2>
+  <form id="contactForm">
+    <input type="text" placeholder="Your Name" required>
+    <input type="email" placeholder="Your Email" required>
+    <textarea placeholder="Your Message" required></textarea>
+    <button type="submit" class="btn"><i class="fa-solid fa-paper-plane"></i> Send Message</button>
+  </form>
+  <div class="social-icons">
+    <a href="#"><i class="fa-brands fa-facebook"></i></a>
+    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+    <a href="#"><i class="fa-brands fa-github"></i></a>
+    <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <p>© 2026 Subhan. All rights reserved.</p>
+</footer>
+
+<!-- Project Popup Modal -->
+<div id="projectModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h3 id="modalTitle"></h3>
+    <p id="modalDesc"></p>
+  </div>
+</div>
+<script>
+    // ===== Typing Animation in Hero =====
+const typedText = ["Subhan", "Web Developer", "Designer", "Creative Coder"];
+let i = 0, j = 0, currentText = "", isDeleting = false;
+const typedSpan = document.getElementById("typed");
+
+function type() {
+  if(i >= typedText.length) i = 0;
+  let fullText = typedText[i];
+
+  if(isDeleting){
+    currentText = fullText.substring(0, currentText.length -1);
+  } else {
+    currentText = fullText.substring(0, currentText.length +1);
+  }
+
+  typedSpan.textContent = currentText;
+
+  let speed = isDeleting ? 100 : 200;
+
+  if(!isDeleting && currentText === fullText) {
+    speed = 1000;
+    isDeleting = true;
+  } else if(isDeleting && currentText === "") {
+    isDeleting = false;
+    i++;
+    speed = 500;
+  }
+
+  setTimeout(type, speed);
+}
+
+type();
+
+// ===== Dark/Light Mode Toggle =====
+const modeIcon = document.getElementById('modeIcon');
+modeIcon.addEventListener('click', ()=>{
+    document.body.classList.toggle('dark');
+    if(document.body.classList.contains('dark')){
+        modeIcon.classList.replace('fa-moon','fa-sun');
+    } else {
+        modeIcon.classList.replace('fa-sun','fa-moon');
+    }
+});
+
+// ===== Skill Bars Animation =====
+const skills = document.querySelectorAll('.skill');
+window.addEventListener('scroll', () => {
+    skills.forEach(skill => {
+        const skillTop = skill.getBoundingClientRect().top;
+        if(skillTop < window.innerHeight - 50){
+            const bar = skill.querySelector('.skill-bar');
+            bar.style.width = skill.getAttribute('data-percent') + '%';
+        }
+    });
+
+    // Fade-up animations
+    const faders = document.querySelectorAll('.fade-up');
+    faders.forEach(fade => {
+        const top = fade.getBoundingClientRect().top;
+        if(top < window.innerHeight - 100){
+            fade.classList.add('show');
+        }
+    });
+});
+
+// ===== Initialize VanillaTilt for Project Cards =====
+VanillaTilt.init(document.querySelectorAll(".tilt"), {
+    max: 15,
+    speed: 400,
+    glare: true,
+    "max-glare": 0.3
+});
+
+// ===== Particles.js =====
+particlesJS("particles-js", {
+  "particles": {
+    "number": { "value":60, "density":{"enable":true,"value_area":800} },
+    "color": { "value":"#ffffff" },
+    "shape": { "type":"circle" },
+    "opacity": { "value":0.5 },
+    "size": { "value":3 },
+    "line_linked": { "enable":true, "distance":150, "color":"#ffffff", "opacity":0.4, "width":1 },
+    "move": { "enable":true, "speed":2 }
+  }
+});
+
+// ===== Contact Form Alert =====
+const form = document.getElementById('contactForm');
+form.addEventListener('submit', function(e){
+    e.preventDefault();
+    alert('Thanks for contacting me! I will reply soon 😊');
+    form.reset();
+});
+
+// ===== Project Modal Popup =====
+const modal = document.getElementById("projectModal");
+const modalTitle = document.getElementById("modalTitle");
+const modalDesc = document.getElementById("modalDesc");
+const closeBtn = document.querySelector(".modal .close");
+
+document.querySelectorAll(".view-project").forEach(button=>{
+    button.addEventListener("click", (e)=>{
+        const card = e.target.closest(".project-card");
+        modalTitle.textContent = card.getAttribute("data-title");
+        modalDesc.textContent = card.getAttribute("data-desc");
+        modal.style.display = "flex";
+    });
+});
+
+closeBtn.addEventListener("click", ()=>{ modal.style.display = "none"; });
+window.addEventListener("click", (e)=>{
+    if(e.target === modal) modal.style.display = "none";
+});
+
+</script>
+</body>
+</html>
